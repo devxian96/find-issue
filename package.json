@@ -29,7 +29,6 @@
     "@typescript-eslint/parser": "^5.30.7",
     "@vitejs/plugin-react": "^2.0.0",
     "commitizen": "^4.2.5",
-    "commitizen-emoji": "^1.0.5",
     "eslint": "^8.20.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -43,11 +42,6 @@
     "typescript": "^4.6.4",
     "vite": "^3.0.0",
     "vite-tsconfig-paths": "^3.5.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/commitizen-emoji"
-    }
   },
   "packageManager": "yarn@3.2.1"
 }
