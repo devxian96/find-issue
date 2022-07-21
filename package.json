@@ -1,22 +1,25 @@
 {
   "name": "find-issue",
+  "productName": "Find Issue",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "author": "SeokHyeon Jang <coolman555@me.com>",
+  "license": "MIT License",
+  "description": "Web real-time issue search based on electron",
+  "main": "dist/electron/main/index.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "build": "tsc && vite build && electron-builder",
     "eslint": "eslint --ext .ts,.tsx,.js,.jsx --no-error-on-unmatched-pattern",
     "eslint:fix": "eslint --ext .ts,.tsx,.js,.jsx --no-error-on-unmatched-pattern --quiet --fix",
-    "typecheck": "tsc --noEmit --skipLibCheck",
-    "postinstall": "husky install"
+    "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.9.1",
+    "electron-is-dev": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0"
@@ -29,6 +32,8 @@
     "@typescript-eslint/parser": "^5.30.7",
     "@vitejs/plugin-react": "^2.0.0",
     "commitizen": "^4.2.5",
+    "electron": "^19.0.8",
+    "electron-builder": "^23.1.0",
     "eslint": "^8.20.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -39,9 +44,14 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.7.1",
     "tsconfig-paths": "^4.0.0",
-    "typescript": "^4.6.4",
+    "typescript": "^4.7.4",
     "vite": "^3.0.0",
+    "vite-plugin-electron": "^0.8.1",
     "vite-tsconfig-paths": "^3.5.0"
+  },
+  "env": {
+    "VITE_DEV_SERVER_HOST": "127.0.0.1",
+    "VITE_DEV_SERVER_PORT": 7777
   },
   "packageManager": "yarn@3.2.1"
 }

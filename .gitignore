@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+release
+.vscode
 
 # Editor directories and files
 .vscode/*
@@ -23,11 +25,5 @@ dist-ssr
 *.sln
 *.sw?
 
-# Zero install
+# install
 .yarn/*
-!.yarn/cache
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions

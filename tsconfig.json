@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": [
@@ -7,6 +8,26 @@
       "DOM.Iterable",
       "ESNext"
     ],
+    "paths": {
+      "@routes/*": [
+        "src/routes/*"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@stores/*": [
+        "src/stores/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@types/*": [
+        "src/types/*"
+      ]
+    },
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -18,33 +39,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "baseUrl": "./src",
-    "paths": {
-      "@routes/*": [
-        "routes/*"
-      ],
-      "@hooks/*": [
-        "hooks/*"
-      ],
-      "@components/*": [
-        "components/*"
-      ],
-      "@stores/*": [
-        "stores/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ],
-      "@types/*": [
-        "types/*"
-      ]
-    }
-  },
-  "ts-node": {
-    "require": [
-      "tsconfig-paths/register"
-    ]
+    "jsx": "react-jsx"
   },
   "include": [
     "src"
