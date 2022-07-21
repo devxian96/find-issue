@@ -39,5 +39,10 @@
     "typescript": "^4.6.4",
     "vite": "^3.0.0"
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/commitizen-emoji"
+    }
+  },
   "packageManager": "yarn@3.2.1"
 }
