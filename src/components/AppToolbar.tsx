@@ -2,6 +2,7 @@ import React from 'react';
 import { AppBar, InputBase, Toolbar, Typography, Button } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -42,8 +43,12 @@ const AppToolbar: React.FC = (): JSX.Element => {
 					</SearchIconWrapper>
 					<StyledInputBase placeholder="검색..." inputProps={{ 'aria-label': 'search', width: '100%' }} />
 				</Search>
-				<Button color="inherit">홈</Button>
-				<Button color="inherit">설정</Button>
+				<Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+					<Button color="inherit">홈</Button>
+				</Link>
+				<Link to="/setting" style={{ color: 'white', textDecoration: 'none' }}>
+					<Button color="inherit">설정</Button>
+				</Link>
 			</Toolbar>
 		</AppBar>
 	);

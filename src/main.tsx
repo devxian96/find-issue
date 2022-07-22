@@ -6,14 +6,16 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 // Routes
 import Home from '@routes/Home';
+import Setting from '@routes/Setting';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
 		<CssBaseline />
-		<AppToolbar />
 		<HashRouter>
+			<AppToolbar />
 			<Routes>
 				<Route path="/" element={<Home />} />
+				<Route path="/setting" element={<Setting />} />
 			</Routes>
 		</HashRouter>
 	</React.StrictMode>,
