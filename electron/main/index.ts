@@ -2,6 +2,7 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { release } from 'os';
 import axios from 'axios';
 import { join } from 'path';
+import create from 'zustand';
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
@@ -101,7 +102,7 @@ ipcMain.handle('open-win', (event, arg) => {
 	}
 });
 
-ipcMain.on('synchronous-message', async (event, arg) => {
+ipcMain.on('synchronous-list', async (event, arg) => {
 	await axios
 		.get('https://section.blog.naver.com/ajax/SearchList.naver', {
 			headers: {
@@ -124,6 +125,22 @@ ipcMain.on('synchronous-message', async (event, arg) => {
 		.then(({ data }) => {
 			const { result } = JSON.parse(data.replace(")]}',", '').replaceAll('gdid', 'id'));
 			event.returnValue = result;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+
+ipcMain.on('synchronous-page', (event, arg) => {
+	axios
+		.get('https://blog.naver.com/PostView.naver', {
+			params: {
+				blogId: arg.blogId,
+				logNo: arg.logNo,
+			},
+		})
+		.then(({ data }) => {
+			event.returnValue = data;
 		})
 		.catch((err) => {
 			console.log(err);

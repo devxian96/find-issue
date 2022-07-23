@@ -111,6 +111,8 @@ const Home: React.FC = (): JSX.Element => {
 	const issueListStore = issueListModel();
 	const [checkboxSelection] = useState<boolean>(true);
 
+	console.log("rend",issueListStore.getIssueList())
+
 	return (
 		<div style={{ height: 'calc(100vh - 50px)', width: '100%' }}>
 			<DataGrid

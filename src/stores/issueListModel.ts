@@ -1,33 +1,11 @@
 import create from 'zustand';
-
-interface thumbnailType {
-	url: string;
-	videoThumbnail: boolean;
-	vrthumbnail: boolean;
-}
-
-interface issueType {
-	addDate: number;
-	blogId: string;
-	blogName: string;
-	contents: string;
-	gdid: string;
-	hasThumbnail: boolean;
-	logNo: number;
-	marketPost: boolean;
-	nickName: string;
-	noTagTitle: string;
-	postUrl: string;
-	product: null;
-	profileImgUrl: string;
-	thumbnails: thumbnailType[];
-	title: string;
-}
+import type { issueType } from '../types/common';
 
 interface issueListType {
 	issueList: issueType[];
 	getIssueList: () => issueType[];
 	setIssueList: (issueList: issueType[]) => void;
+	setTypeAndContent: (text: string, uniqueId: string, type: number) => void;
 }
 
 const issueListModel = create<issueListType>((set, get) => ({
@@ -37,6 +15,18 @@ const issueListModel = create<issueListType>((set, get) => ({
 
 	setIssueList(issueList: issueType[]): void {
 		set(() => ({ issueList }));
+	},
+
+	setTypeAndContent(text: string, uniqueId: string, type: number): void {
+		const id = get().issueList.findIndex(({ id, gdid }) => id === uniqueId || gdid === uniqueId);
+
+		set((state) => ({
+			issueList: Object.values({
+				...state.issueList,
+				[id]: { ...state.issueList[id], contents: text, type },
+			}).map((data) => data),
+		}));
+		console.log(id, get().issueList);
 	},
 }));
 

@@ -20,6 +20,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.9.1",
     "@mui/x-data-grid": "^5.14.0",
+    "@shopify/react-web-worker": "^5.0.1",
     "axios": "^0.27.2",
     "electron-is-dev": "^2.0.0",
     "react": "^18.2.0",
@@ -55,6 +56,5 @@
   "env": {
     "VITE_DEV_SERVER_HOST": "127.0.0.1",
     "VITE_DEV_SERVER_PORT": 7777
-  },
-  "packageManager": "yarn@3.2.1"
+  }
 }
