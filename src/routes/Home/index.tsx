@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
-import { Link, Box } from '@mui/material';
+import { Link, Box, Typography } from '@mui/material';
 import { DataGrid, GridToolbar, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import { styled } from '@mui/material/styles';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import projectStatusModel from '@stores/projectStatusModel';
 import issueListModel from '@stores/issueListModel';
+
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+	// eslint-disable-next-line react/jsx-props-no-spreading
+	<Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+	[`& .${tooltipClasses.tooltip}`]: {
+		backgroundColor: '#f5f5f9',
+		color: 'rgba(0, 0, 0, 0.87)',
+		maxWidth: 700,
+		fontSize: theme.typography.pxToRem(12),
+		border: '1px solid #dadde9',
+	},
+}));
 
 const columns: GridColDef[] = [
 	{
@@ -60,13 +75,24 @@ const columns: GridColDef[] = [
 		headerName: '제목',
 		width: 550,
 		editable: true,
-		renderCell: (params: GridRenderCellParams) =>
-			params.value
-				.replaceAll('&amp;', '&')
-				.replaceAll('&#39;', "'")
-				.replaceAll('&gt;', '>')
-				.replaceAll('&lt;', '<')
-				.replaceAll('&quot;', '"'),
+		renderCell: (params: GridRenderCellParams) => {
+			return (
+				// eslint-disable-next-line react/no-danger
+				<HtmlTooltip
+					placement="right"
+					title={<div dangerouslySetInnerHTML={{ __html: params.row.contents }} />}
+				>
+					<p>
+						{params.value
+							.replaceAll('&amp;', '&')
+							.replaceAll('&#39;', "'")
+							.replaceAll('&gt;', '>')
+							.replaceAll('&lt;', '<')
+							.replaceAll('&quot;', '"')}
+					</p>
+				</HtmlTooltip>
+			);
+		},
 	},
 	{
 		field: 'postUrl',
@@ -123,6 +149,7 @@ const Home: React.FC = (): JSX.Element => {
 				components={{
 					Toolbar: GridToolbar,
 				}}
+				onRowClick={(e) => console.log(e)}
 			/>
 		</div>
 	);

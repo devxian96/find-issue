@@ -32,17 +32,79 @@ const AppToolbar: React.FC = (): JSX.Element => {
 		);
 	};
 
+	const focusText = (text: string, search: string): string => {
+		return text.replaceAll(search, /* html */ `<strong style="color:red">${search}</strong>`);
+	};
+
+	const criticalText = (text: string): string => {
+		let tmp = text;
+		settingStore
+			.getSetting()
+			.critical.split(',')
+			.forEach((keyword) => {
+				tmp = tmp.replaceAll(
+					keyword,
+					`<span id="find-issue-critical" style="background-color:red; color: white;">${keyword}</span>`,
+				);
+			});
+		return tmp;
+	};
+
+	const majorText = (text: string): string => {
+		let tmp = text;
+		settingStore
+			.getSetting()
+			.major.split(',')
+			.forEach((keyword) => {
+				tmp = tmp.replaceAll(
+					keyword,
+					`<span id="find-issue-major" style="background-color:yellow; color: black;">${keyword}</span>`,
+				);
+			});
+		return tmp;
+	};
+
+	const minorText = (text: string): string => {
+		let tmp = text;
+		settingStore
+			.getSetting()
+			.minor.split(',')
+			.forEach((keyword) => {
+				tmp = tmp.replaceAll(
+					keyword,
+					`<span id="find-issue-minor" style="background-color:#333; color: white;">${keyword}</span>`,
+				);
+			});
+		return tmp;
+	};
+
+	const getType = (text: string): number => {
+		if (text.indexOf('find-issue-critical') !== -1) {
+			return 3;
+		}
+		if (text.indexOf('find-issue-major') !== -1) {
+			return 2;
+		}
+		if (text.indexOf('find-issue-minor') !== -1) {
+			return 1;
+		}
+		return 0;
+	};
+
 	const startSearch = () => {
 		const searchList = ipcRenderer.sendSync('synchronous-list', {
 			search,
 			count: settingStore.getSetting().rows,
 		});
-		searchList.forEach((search: issueType) => {
-			worker.call(search).then(({ html, id }) => {
-				const text = getBodyText(html);
-				// console.log(text, id);
-				// 여기서 타입과 text에 강조까지 작업해야한다.
-				issueListStore.setTypeAndContent(text, id as string, 0);
+		searchList.forEach((searchProps: issueType) => {
+			worker.call(searchProps).then(({ html, id }) => {
+				let text = getBodyText(html);
+				text = focusText(text, search);
+				text = criticalText(text);
+				text = majorText(text);
+				text = minorText(text);
+				const type = getType(text);
+				issueListStore.setTypeAndContent(text, id as string, type);
 			});
 		});
 		issueListStore.setIssueList(searchList);

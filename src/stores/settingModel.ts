@@ -19,7 +19,7 @@ const settingModel = create<settingType>((set, get) => ({
 	critical: '',
 	major: '',
 	minor: '',
-	rows: 40,
+	rows: 3,
 
 	getSetting: () => {
 		const { exception, critical, major, minor, rows } = get();
