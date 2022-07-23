@@ -1,5 +1,6 @@
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { release } from 'os';
+import axios from 'axios';
 import { join } from 'path';
 
 // Disable GPU Acceleration for Windows 7
@@ -98,4 +99,33 @@ ipcMain.handle('open-win', (event, arg) => {
 		childWindow.loadURL(`${url}/#${arg}`);
 		// childWindow.webContents.openDevTools({ mode: "undocked", activate: true })
 	}
+});
+
+ipcMain.on('synchronous-message', async (event, arg) => {
+	await axios
+		.get('https://section.blog.naver.com/ajax/SearchList.naver', {
+			headers: {
+				Accept: 'application/json, text/plain, */*',
+				'Accept-Encoding': 'gzip, deflate, br',
+				Host: 'section.blog.naver.com',
+				'User-Agent':
+					'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Safari/605.1.15',
+				'Accept-Language': 'ko-KR,ko;q=0.9',
+				Referer: 'https://section.blog.naver.com/',
+				Connection: 'keep-alive',
+			},
+			params: {
+				countPerPage: 10,
+				currentPage: 1,
+				keyword: arg,
+				orderBy: 'recentdate',
+			},
+		})
+		.then(({ data }) => {
+			const { result } = JSON.parse(data.replace(")]}',", '').replaceAll('gdid', 'id'));
+			event.returnValue = result;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 });
