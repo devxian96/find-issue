@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { Link, Box, Typography } from '@mui/material';
+import { Link, Box } from '@mui/material';
 import { DataGrid, GridToolbar, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import projectStatusModel from '@stores/projectStatusModel';
 import issueListModel from '@stores/issueListModel';
+
+import PendingIcon from '@mui/icons-material/Pending';
+import ErrorIcon from '@mui/icons-material/Error';
+import WarningIcon from '@mui/icons-material/Warning';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 	// eslint-disable-next-line react/jsx-props-no-spreading
@@ -29,7 +34,22 @@ const columns: GridColDef[] = [
 		field: 'type',
 		headerName: '유형',
 		width: 50,
-		editable: true,
+		editable: false,
+		renderCell: (params: GridRenderCellParams) => {
+			if (params.value === 3) {
+				return <ErrorIcon sx={{ color: 'red' }} />;
+			}
+			if (params.value === 2) {
+				return <WarningIcon sx={{ color: 'orange' }} />;
+			}
+			if (params.value === 1) {
+				return <PriorityHighIcon sx={{ color: '#333' }} />;
+			}
+			if (params.value === 0) {
+				return '';
+			}
+			return <PendingIcon />;
+		},
 	},
 	{
 		field: 'chanel1',
