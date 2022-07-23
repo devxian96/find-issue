@@ -2,7 +2,6 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { release } from 'os';
 import axios from 'axios';
 import { join } from 'path';
-import create from 'zustand';
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
@@ -34,7 +33,8 @@ const indexHtml = join(ROOT_PATH.dist, 'index.html');
 async function createWindow() {
 	win = new BrowserWindow({
 		title: 'Main window',
-		width: 950,
+		width: 1500,
+		height: 700,
 		icon: join(ROOT_PATH.public, 'favicon.svg'),
 		webPreferences: {
 			preload,
@@ -98,37 +98,44 @@ ipcMain.handle('open-win', (event, arg) => {
 		childWindow.loadFile(indexHtml, { hash: arg });
 	} else {
 		childWindow.loadURL(`${url}/#${arg}`);
-		// childWindow.webContents.openDevTools({ mode: "undocked", activate: true })
 	}
 });
 
+const rangeInt = (from, to) => Array.from({ length: to - from + 1 }, (e, i) => i + from);
+
 ipcMain.on('synchronous-list', async (event, arg) => {
-	await axios
-		.get('https://section.blog.naver.com/ajax/SearchList.naver', {
-			headers: {
-				Accept: 'application/json, text/plain, */*',
-				'Accept-Encoding': 'gzip, deflate, br',
-				Host: 'section.blog.naver.com',
-				'User-Agent':
-					'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Safari/605.1.15',
-				'Accept-Language': 'ko-KR,ko;q=0.9',
-				Referer: 'https://section.blog.naver.com/',
-				Connection: 'keep-alive',
-			},
-			params: {
-				countPerPage: 10,
-				currentPage: 1,
-				keyword: arg,
-				orderBy: 'recentdate',
-			},
-		})
-		.then(({ data }) => {
-			const { result } = JSON.parse(data.replace(")]}',", '').replaceAll('gdid', 'id'));
-			event.returnValue = result;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	const resultArray = [];
+	const times = rangeInt(1, Math.ceil(arg.count / 20));
+	// eslint-disable-next-line no-restricted-syntax
+	for await (const time of times) {
+		await axios
+			.get('https://section.blog.naver.com/ajax/SearchList.naver', {
+				headers: {
+					Accept: 'application/json, text/plain, */*',
+					'Accept-Encoding': 'gzip, deflate, br',
+					Host: 'section.blog.naver.com',
+					'User-Agent':
+						'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Safari/605.1.15',
+					'Accept-Language': 'ko-KR,ko;q=0.9',
+					Referer: 'https://section.blog.naver.com/',
+					Connection: 'keep-alive',
+				},
+				params: {
+					countPerPage: arg.count > 20 * time ? 20 : arg.count - 20 * (time - 1),
+					currentPage: time,
+					keyword: arg.search,
+					orderBy: 'recentdate',
+				},
+			})
+			.then(({ data }) => {
+				const { result } = JSON.parse(data.replace(")]}',", '').replaceAll('gdid', 'id'));
+				resultArray.push(...result.searchList);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+	event.returnValue = resultArray;
 });
 
 ipcMain.on('synchronous-page', (event, arg) => {

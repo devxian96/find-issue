@@ -10,8 +10,10 @@ import {
 	TextField,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import settingModel from '@stores/settingModel';
 
 const Setting: React.FC = (): JSX.Element => {
+	const settingStore = settingModel();
 	const [expanded, setExpanded] = React.useState<string | false>(false);
 
 	const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -34,6 +36,8 @@ const Setting: React.FC = (): JSX.Element => {
 						fullWidth
 						rows={7}
 						variant="filled"
+						defaultValue={settingStore.getSetting().exception}
+						onChange={(e) => settingStore.setException(e.target.value)}
 					/>
 				</AccordionDetails>
 			</Accordion>
@@ -49,6 +53,8 @@ const Setting: React.FC = (): JSX.Element => {
 						fullWidth
 						rows={7}
 						variant="filled"
+						defaultValue={settingStore.getSetting().critical}
+						onChange={(e) => settingStore.setCritical(e.target.value)}
 					/>
 				</AccordionDetails>
 			</Accordion>
@@ -63,6 +69,8 @@ const Setting: React.FC = (): JSX.Element => {
 						fullWidth
 						rows={7}
 						variant="filled"
+						defaultValue={settingStore.getSetting().major}
+						onChange={(e) => settingStore.setMajor(e.target.value)}
 					/>
 				</AccordionDetails>
 			</Accordion>
@@ -77,6 +85,25 @@ const Setting: React.FC = (): JSX.Element => {
 						fullWidth
 						rows={7}
 						variant="filled"
+						defaultValue={settingStore.getSetting().minor}
+						onChange={(e) => settingStore.setMinor(e.target.value)}
+					/>
+				</AccordionDetails>
+			</Accordion>
+			<Accordion expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel5bh-content" id="panel5bh-header">
+					<Typography sx={{ width: '33%', flexShrink: 0 }}>크롤링 갯수</Typography>
+					<Typography sx={{ color: 'text.secondary' }}>크롤링할 페이지 양을 설정하세요.</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+					<TextField
+						helperText="키워드마다 반점(,)으로 구분하여 작성해 주세요."
+						multiline
+						fullWidth
+						rows={7}
+						variant="filled"
+						defaultValue={settingStore.getSetting().rows}
+						onChange={(e) => settingStore.setRows(parseInt(e.target.value, 10))}
 					/>
 				</AccordionDetails>
 			</Accordion>

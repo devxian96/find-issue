@@ -47,7 +47,7 @@ const columns: GridColDef[] = [
 	{
 		field: 'addDate',
 		headerName: '이슈 업데이트',
-		width: 200,
+		width: 150,
 		editable: true,
 		renderCell: (params: GridRenderCellParams) =>
 			new Date(new Date(params.value).getTime() + 3240 * 10000)
@@ -58,14 +58,15 @@ const columns: GridColDef[] = [
 	{
 		field: 'noTagTitle',
 		headerName: '제목',
-		width: 450,
+		width: 550,
 		editable: true,
 		renderCell: (params: GridRenderCellParams) =>
 			params.value
 				.replaceAll('&amp;', '&')
 				.replaceAll('&#39;', "'")
 				.replaceAll('&gt;', '>')
-				.replaceAll('&lt;', '<'),
+				.replaceAll('&lt;', '<')
+				.replaceAll('&quot;', '"'),
 	},
 	{
 		field: 'postUrl',
@@ -111,11 +112,10 @@ const Home: React.FC = (): JSX.Element => {
 	const issueListStore = issueListModel();
 	const [checkboxSelection] = useState<boolean>(true);
 
-	console.log("rend",issueListStore.getIssueList())
-
 	return (
 		<div style={{ height: 'calc(100vh - 50px)', width: '100%' }}>
 			<DataGrid
+				rowBuffer={100}
 				loading={projectStatusStore.getProjectStatus()}
 				columns={columns}
 				rows={issueListStore.getIssueList()}

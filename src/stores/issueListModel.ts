@@ -26,7 +26,6 @@ const issueListModel = create<issueListType>((set, get) => ({
 				[id]: { ...state.issueList[id], contents: text, type },
 			}).map((data) => data),
 		}));
-		console.log(id, get().issueList);
 	},
 }));
 
