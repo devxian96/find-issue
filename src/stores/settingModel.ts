@@ -15,11 +15,11 @@ interface settingType {
 }
 
 const settingModel = create<settingType>((set, get) => ({
-	exception: '',
-	critical: '',
-	major: '',
-	minor: '',
-	rows: 3,
+	exception: localStorage.getItem('exception') || '',
+	critical: localStorage.getItem('critical') || '',
+	major: localStorage.getItem('major') || '',
+	minor: localStorage.getItem('minor') || '',
+	rows: parseInt(localStorage.getItem('rows') ?? '20', 10),
 
 	getSetting: () => {
 		const { exception, critical, major, minor, rows } = get();
@@ -27,22 +27,27 @@ const settingModel = create<settingType>((set, get) => ({
 	},
 
 	setException(setting: string): void {
+		localStorage.setItem('exception', setting);
 		set({ exception: setting });
 	},
 
 	setCritical(setting: string): void {
+		localStorage.setItem('critical', setting);
 		set({ critical: setting });
 	},
 
 	setMajor(setting: string): void {
+		localStorage.setItem('major', setting);
 		set({ major: setting });
 	},
 
 	setMinor(setting: string): void {
+		localStorage.setItem('minor', setting);
 		set({ minor: setting });
 	},
 
 	setRows(setting: number): void {
+		localStorage.setItem('rows', `${setting}`);
 		set({ rows: setting });
 	},
 }));
