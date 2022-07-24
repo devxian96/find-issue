@@ -1,4 +1,5 @@
 import create from 'zustand';
+import _ from 'lodash';
 import type { issueType } from '../types/common';
 
 interface issueListType {
@@ -14,7 +15,8 @@ const issueListModel = create<issueListType>((set, get) => ({
 	getIssueList: () => get().issueList,
 
 	setIssueList(issueList: issueType[]): void {
-		set(() => ({ issueList }));
+		const result = _.uniqBy(issueList, 'id');
+		set(() => ({ issueList: result }));
 	},
 
 	setTypeAndContent(text: string, uniqueId: string, type: number): void {

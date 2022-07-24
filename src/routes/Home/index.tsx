@@ -169,7 +169,6 @@ const Home: React.FC = (): JSX.Element => {
 				components={{
 					Toolbar: GridToolbar,
 				}}
-				onRowClick={(e) => console.log(e)}
 			/>
 		</div>
 	);

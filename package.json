@@ -23,12 +23,14 @@
     "@shopify/react-web-worker": "^5.0.1",
     "axios": "^0.27.2",
     "electron-is-dev": "^2.0.0",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "zustand": "^4.0.0-rc.4"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
     "@types/node": "^18.0.6",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",

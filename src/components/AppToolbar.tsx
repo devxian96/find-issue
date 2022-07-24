@@ -42,6 +42,7 @@ const AppToolbar: React.FC = (): JSX.Element => {
 			.getSetting()
 			.critical.split(',')
 			.forEach((keyword) => {
+				if (!keyword) return;
 				tmp = tmp.replaceAll(
 					keyword,
 					`<span id="find-issue-critical" style="background-color:red; color: white;">${keyword}</span>`,
@@ -56,6 +57,7 @@ const AppToolbar: React.FC = (): JSX.Element => {
 			.getSetting()
 			.major.split(',')
 			.forEach((keyword) => {
+				if (!keyword) return;
 				tmp = tmp.replaceAll(
 					keyword,
 					`<span id="find-issue-major" style="background-color:yellow; color: black;">${keyword}</span>`,
@@ -70,6 +72,7 @@ const AppToolbar: React.FC = (): JSX.Element => {
 			.getSetting()
 			.minor.split(',')
 			.forEach((keyword) => {
+				if (!keyword) return;
 				tmp = tmp.replaceAll(
 					keyword,
 					`<span id="find-issue-minor" style="background-color:#333; color: white;">${keyword}</span>`,
@@ -108,14 +111,14 @@ const AppToolbar: React.FC = (): JSX.Element => {
 			});
 		});
 		issueListStore.setIssueList(searchList);
-		projectStatusStore.setProjectStatus(false);
+		setTimeout(() => projectStatusStore.setProjectStatus(false), 0);
 	};
 
 	return (
 		<AppBar position="static">
 			<Toolbar variant="dense" sx={{ justifyContent: 'space-between' }}>
 				<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-					Find Issue {version}
+					Find Issue {version} {projectStatusStore.getProjectStatus().toString()}
 				</Typography>
 				<Search>
 					<SearchIconWrapper>
