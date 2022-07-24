@@ -118,7 +118,7 @@ const AppToolbar: React.FC = (): JSX.Element => {
 		<AppBar position="static">
 			<Toolbar variant="dense" sx={{ justifyContent: 'space-between' }}>
 				<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-					Find Issue {version} {projectStatusStore.getProjectStatus().toString()}
+					Find Issue {version}
 				</Typography>
 				<Search>
 					<SearchIconWrapper>

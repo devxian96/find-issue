@@ -97,19 +97,22 @@ const Setting: React.FC = (): JSX.Element => {
 				</AccordionSummary>
 				<AccordionDetails>
 					<TextField
-						helperText="키워드마다 반점(,)으로 구분하여 작성해 주세요."
+						helperText="숫자만 입력해 주세요."
 						multiline
 						fullWidth
 						rows={7}
+						type="number"
 						variant="filled"
 						defaultValue={settingStore.getSetting().rows}
 						onChange={(e) => settingStore.setRows(parseInt(e.target.value, 10))}
+						inputProps={{ pattern: '([^0-9]*)' }}
 					/>
 				</AccordionDetails>
 			</Accordion>
 
 			<Box sx={{ textAlign: 'center', position: 'absolute', width: '100%', bottom: 0 }}>
 				<Divider />
+				{/*
 				<Link
 					target="_blank"
 					href="https://github.com/devxian96/find-issue/blob/main/LICENSE"
@@ -120,6 +123,11 @@ const Setting: React.FC = (): JSX.Element => {
 				</Link>
 				<Link target="_blank" href="https://github.com/devxian96/find-issue" underline="hover">
 					Github
+				</Link>
+				*/}
+
+				<Link target="_blank" href="https://github.com/devxian96" underline="hover">
+					@devxian96
 				</Link>
 			</Box>
 		</>
